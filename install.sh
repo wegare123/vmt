@@ -35,7 +35,13 @@ wget --no-check-certificate "https://raw.githubusercontent.com/wegare123/vmt/mai
 wget --no-check-certificate "https://raw.githubusercontent.com/wegare123/vmt/main/v2ctl" -O /usr/bin/v2ctl
 wget --no-check-certificate "https://raw.githubusercontent.com/wegare123/vmt/main/geoip.dat" -O /usr/bin/geoip.dat
 wget --no-check-certificate "https://raw.githubusercontent.com/wegare123/vmt/main/geosite.dat" -O /usr/bin/geosite.dat
-opkg remove dnsmasq && opkg install resolveip dnsmasq-full ip-full ipset jshn lsof fping && opkg install *.ipk
+cek2=$(opkg list-installed | grep dnsmasq-full | awk '{print $1}')
+if [[ $cek2 = "dnsmasq-full" ]]; then
+continue
+else
+opkg remove dnsmasq
+fi
+opkg install resolveip dnsmasq-full ip-full ipset jshn lsof fping && opkg install *.ipk
 chmod +x /usr/bin/vmt
 chmod +x /usr/bin/autorekonek-vmt
 chmod +x /usr/bin/v2ray
