@@ -36,7 +36,7 @@ wget --no-check-certificate "https://raw.githubusercontent.com/wegare123/vmt/mai
 wget --no-check-certificate "https://raw.githubusercontent.com/wegare123/vmt/main/geoip.dat" -O /usr/bin/geoip.dat
 wget --no-check-certificate "https://raw.githubusercontent.com/wegare123/vmt/main/geosite.dat" -O /usr/bin/geosite.dat
 cek2=$(opkg list-installed | grep dnsmasq-full | awk '{print $1}')
-if [[ $cek2 = "dnsmasq-full" ]]; then
+if [ $cek2 = "dnsmasq-full" ]; then
 echo > /dev/null
 else
 opkg remove dnsmasq
