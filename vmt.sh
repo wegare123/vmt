@@ -9,6 +9,7 @@ user2="$(cat /root/akun/vmt.txt | grep -i user | cut -d= -f2)"
 path2="$(cat /root/akun/vmt.txt | grep -i path | cut -d= -f2)" 
 aid2="$(cat /root/akun/vmt.txt | grep -i aid | cut -d= -f2)" 
 ws2="$(cat /root/akun/vmt.txt | grep -i ws | cut -d= -f2 | tail -n1)" 
+tls2="$(cat /root/akun/vmt.txt | grep -i tls | cut -d= -f2 | tail -n1)" 
 #protocol2="$(cat /root/akun/vmt.txt | grep -i protocol | cut -d= -f2 | tail -n1)" 
 echo "Inject vmess by wegare"
 echo "1. Sett Profile"
@@ -67,6 +68,10 @@ echo "Masukkan network"
 read -p "default network: $ws2 : " ws
 [ -z "${ws}" ] && ws="$ws2"
 
+echo "Masukkan methode tls" 
+read -p "default tls: $tls2 : " tls
+[ -z "${tls}" ] && tls="$tls2"
+
 echo "host=$host
 port=$port
 path=$path
@@ -75,6 +80,7 @@ bug=$bug
 aid=$aid
 udp=$udp
 ws=$ws
+tls=$tls
 #protocol=$protocol" > /root/akun/vmt.txt
 cat <<EOF> /root/akun/vmt.json
 {
@@ -104,7 +110,8 @@ cat <<EOF> /root/akun/vmt.json
             "users": [
               {
                 "id": "$user",
-                "alterId": $aid
+                "alterId": $aid,
+                "security": "auto"
               }
             ]
           }
@@ -112,13 +119,15 @@ cat <<EOF> /root/akun/vmt.json
       },
       "streamSettings": {
         "network": "$ws",
-        "security": "tls",
+        "security": "$tls",
         "tlsSettings": {
-          "allowInsecure": true,
-          "serverName": "$bug"
+          "allowInsecure": true
         },
           "wsSettings": { 
-          "path": "/$path"
+          "path": "/$path",
+          "headers": {
+          "Host": "$bug"
+          }
         }
       }
     }
