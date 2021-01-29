@@ -64,11 +64,11 @@ echo "Masukkan path"
 read -p "default path: $path2 : " path
 [ -z "${path}" ] && path="$path2"
 
-echo "Masukkan network" 
+echo "Masukkan method network" 
 read -p "default network: $ws2 : " ws
 [ -z "${ws}" ] && ws="$ws2"
 
-echo "Masukkan methode tls" 
+echo "Masukkan method tls" 
 read -p "default tls: $tls2 : " tls
 [ -z "${tls}" ] && tls="$tls2"
 
@@ -121,7 +121,8 @@ cat <<EOF> /root/akun/vmt.json
         "network": "$ws",
         "security": "$tls",
         "tlsSettings": {
-          "allowInsecure": true
+          "allowInsecure": true,
+          "serverName": "$bug"
         },
           "wsSettings": { 
           "path": "/$path",
