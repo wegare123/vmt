@@ -164,8 +164,8 @@ clear
 elif [ "${tools}" = "2" ]; then
 ipmodem="$(route -n | grep -i 0.0.0.0 | head -n1 | awk '{print $2}')" 
 echo "ipmodem=$ipmodem" > /root/akun/ipmodem.txt
-udp="$(cat /root/akun/vmt.txt | grep -i udp | cut -d= -f2)" 
-host="$(cat /root/akun/vmt.txt | grep -i host | cut -d= -f2 | head -n1)" 
+udp="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $7}')" 
+host="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $1}')" 
 route="$(cat /root/akun/ipmodem.txt | grep -i ipmodem | cut -d= -f2 | tail -n1)"
 
 v2ray -c /root/akun/vmt.json &
@@ -189,7 +189,7 @@ chmod +x /usr/bin/ping-vmt
 /usr/bin/ping-vmt > /dev/null 2>&1 &
 sleep 5
 elif [ "${tools}" = "3" ]; then
-host="$(cat /root/akun/vmt.txt | grep -i host | cut -d= -f2 | head -n1)" 
+host="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $1}')" 
 route="$(cat /root/akun/ipmodem.txt | grep -i ipmodem | cut -d= -f2 | tail -n1)" 
 #killall screen
 killall -q badvpn-tun2socks v2ray ping-vmt
