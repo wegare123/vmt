@@ -139,7 +139,6 @@ cat <<EOF>> /root/akun/vmt.json
 EOF
 elif [ "$tls" = "none" ]; then
 cat <<EOF>> /root/akun/vmt.json
-          "allowInsecure": true
         },
           "wsSettings": { 
           "path": "$path",
