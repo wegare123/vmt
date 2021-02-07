@@ -120,6 +120,9 @@ cat <<EOF> /root/akun/vmt.json
         "network": "$ws",
         "security": "$tls",
         "tlsSettings": {
+EOF
+if [ "$tls" = "tls" ]; then
+cat <<EOF>> /root/akun/vmt.json
           "allowInsecure": true,
           "serverName": "$bug"
         },
@@ -134,6 +137,22 @@ cat <<EOF> /root/akun/vmt.json
   ]
 }
 EOF
+elif [ "$tls" = "none" ]; then
+cat <<EOF>> /root/akun/vmt.json
+          "allowInsecure": true
+        },
+          "wsSettings": { 
+          "path": "$path",
+          "headers": {
+          "Host": "$bug"
+          }
+        }
+      }
+    }
+  ]
+}
+EOF
+fi
 cat <<EOF> /usr/bin/gproxy-vmt
 badvpn-tun2socks --tundev tun1 --netif-ipaddr 10.0.0.2 --netif-netmask 255.255.255.0 $badvpn --udpgw-connection-buffer-size 65535 --udpgw-transparent-dns &
 EOF
