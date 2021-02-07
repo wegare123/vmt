@@ -1,15 +1,15 @@
 #!/bin/bash
 #vmt (Wegare)
 clear
-udp2="$(cat /root/akun/vmt.txt | grep -i udp | cut -d= -f2)" 
-host2="$(cat /root/akun/vmt.txt | grep -i host | cut -d= -f2 | head -n1)" 
-port2="$(cat /root/akun/vmt.txt | grep -i port | cut -d= -f2)" 
-bug2="$(cat /root/akun/vmt.txt | grep -i bug | cut -d= -f2)" 
-user2="$(cat /root/akun/vmt.txt | grep -i user | cut -d= -f2)" 
-path2="$(cat /root/akun/vmt.txt | grep -i path | cut -d= -f2)" 
-aid2="$(cat /root/akun/vmt.txt | grep -i aid | cut -d= -f2)" 
-ws2="$(cat /root/akun/vmt.txt | grep -i ws | cut -d= -f2 | tail -n1)" 
-tls2="$(cat /root/akun/vmt.txt | grep -i tls | cut -d= -f2 | tail -n1)" 
+udp2="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $7}')" 
+host2="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $1}')" 
+port2="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $2}')" 
+bug2="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $5}')" 
+user2="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $4}')" 
+path2="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $3}')" 
+aid2="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $6}')" 
+ws2="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $8}')" 
+tls2="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $9}')" 
 #protocol2="$(cat /root/akun/vmt.txt | grep -i protocol | cut -d= -f2 | tail -n1)" 
 echo "Inject vmess by wegare"
 echo "1. Sett Profile"
@@ -72,16 +72,15 @@ echo "Masukkan method tls"
 read -p "default tls: $tls2 : " tls
 [ -z "${tls}" ] && tls="$tls2"
 
-echo "host=$host
-port=$port
-path=$path
-user=$user
-bug=$bug
-aid=$aid
-udp=$udp
-ws=$ws
-tls=$tls
-#protocol=$protocol" > /root/akun/vmt.txt
+echo "$host
+$port
+$path
+$user
+$bug
+$aid
+$udp
+$ws
+$tls" > /root/akun/vmt.txt
 cat <<EOF> /root/akun/vmt.json
 {
   "inbounds": [
@@ -125,7 +124,7 @@ cat <<EOF> /root/akun/vmt.json
           "serverName": "$bug"
         },
           "wsSettings": { 
-          "path": "/$path",
+          "path": "$path",
           "headers": {
           "Host": "$bug"
           }
