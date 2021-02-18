@@ -68,8 +68,8 @@ echo "Pilih method network ws/tcp"
 read -p "default network: $ws2 : " ws
 [ -z "${ws}" ] && ws="$ws2"
 
-echo "Pilih method security tls/none" 
-read -p "default security: $tls2 : " tls
+echo "Pilih method tls tls/none" 
+read -p "default tls: $tls2 : " tls
 [ -z "${tls}" ] && tls="$tls2"
 
 echo "$host
