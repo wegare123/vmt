@@ -71,7 +71,19 @@ read -p "default network: $ws2 : " ws
 echo "Pilih method tls tls/none" 
 read -p "default tls: $tls2 : " tls
 [ -z "${tls}" ] && tls="$tls2"
-
+if [[ -z $path ]]; then
+path="-"
+elif [[ -z $udp ]]; then
+udp="-"
+elif [[ -z $ws ]]; then
+ws="-"
+elif [[ -z $tls ]]; then
+tls="-"
+elif [[ -z $met ]]; then
+met="-"
+elif [[ -z $aid ]]; then
+aid="-"
+fi
 echo "$host
 $port
 $path
