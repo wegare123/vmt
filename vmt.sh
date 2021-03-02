@@ -151,6 +151,9 @@ cat <<EOF>> /root/akun/vmt.json
   ]
 }
 EOF
+else
+echo "Anda belum memilih method tls"
+exit
 fi
 cat <<EOF> /usr/bin/gproxy-vmt
 badvpn-tun2socks --tundev tun1 --netif-ipaddr 10.0.0.2 --netif-netmask 255.255.255.0 $badvpn --udpgw-connection-buffer-size 65535 --udpgw-transparent-dns &
