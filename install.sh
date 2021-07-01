@@ -40,9 +40,9 @@ cek2=$(opkg list-installed | grep dnsmasq-full | awk '{print $1}')
 if [ $cek2 = "dnsmasq-full" ]; then
 echo > /dev/null
 else
-opkg remove dnsmasq
+opkg remove dnsmasq && opkg install dnsmasq-full
 fi
-opkg install resolveip dnsmasq-full ip-full ipset jshn lsof fping && opkg install *.ipk
+opkg install resolveip ip-full ipset jshn lsof fping && opkg install *.ipk
 chmod +x /usr/bin/vmt
 chmod +x /usr/bin/autorekonek-vmt
 chmod +x /usr/bin/v2ray
