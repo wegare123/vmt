@@ -46,6 +46,8 @@ chmod +x /usr/bin/vmt
 chmod +x /usr/bin/autorekonek-vmt
 chmod +x /usr/bin/v2ray
 chmod +x /usr/bin/v2ctl
+chmod +x /usr/bin/geoip.dat
+chmod +x /usr/bin/geosite.dat
 rm -r ~/*.ipk
 rm -r ~/install.sh
 mkdir -p ~/akun/
