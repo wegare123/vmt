@@ -1,6 +1,15 @@
 #!/bin/bash
 #vmt (Wegare)
-clear
+stop () {
+host="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $1}')" 
+route="$(cat /root/akun/ipmodem.txt | grep -i ipmodem | cut -d= -f2 | tail -n1)" 
+killall -q badvpn-tun2socks v2ray ping-vmt fping
+route del 8.8.8.8 gw "$route" metric 0 2>/dev/null
+route del 8.8.4.4 gw "$route" metric 0 2>/dev/null
+route del "$host" gw "$route" metric 0 2>/dev/null
+ip link delete tun1 2>/dev/null
+/etc/init.d/dnsmasq restart 2>/dev/null
+}
 udp2="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $7}')" 
 host2="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $1}')" 
 port2="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $2}')" 
@@ -11,6 +20,7 @@ aid2="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $6}')"
 ws2="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $8}')" 
 tls2="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $9}')" 
 #protocol2="$(cat /root/akun/vmt.txt | grep -i protocol | cut -d= -f2 | tail -n1)" 
+clear
 echo "Inject vmess by wegare"
 echo "1. Sett Profile"
 echo "2. Start Inject"
@@ -176,6 +186,7 @@ sleep 2
 clear
 /usr/bin/vmt
 elif [ "${tools}" = "2" ]; then
+stop
 ipmodem="$(route -n | grep -i 0.0.0.0 | head -n1 | awk '{print $2}')" 
 echo "ipmodem=$ipmodem" > /root/akun/ipmodem.txt
 udp="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $7}')" 
@@ -200,17 +211,7 @@ chmod +x /usr/bin/ping-vmt
 /usr/bin/ping-vmt > /dev/null 2>&1 &
 sleep 5
 elif [ "${tools}" = "3" ]; then
-host="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $1}')" 
-route="$(cat /root/akun/ipmodem.txt | grep -i ipmodem | cut -d= -f2 | tail -n1)" 
-#killall screen
-killall -q badvpn-tun2socks v2ray ping-vmt fping
-route del 8.8.8.8 gw "$route" metric 0 2>/dev/null
-route del 8.8.4.4 gw "$route" metric 0 2>/dev/null
-route del "$host" gw "$route" metric 0 2>/dev/null
-ip link delete tun1 2>/dev/null
-killall dnsmasq 
-/etc/init.d/dnsmasq start > /dev/null
-sleep 2
+stop
 echo "Stop Suksess"
 sleep 2
 clear
