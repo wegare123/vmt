@@ -3,7 +3,7 @@
 stop () {
 host="$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $1}')" 
 route="$(cat /root/akun/ipmodem.txt | grep -i ipmodem | cut -d= -f2 | tail -n1)" 
-killall -q badvpn-tun2socks v2ray ping-vmt fping
+killall -q badvpn-tun2socks v2ray ping-vmt httping
 route del 8.8.8.8 gw "$route" metric 0 2>/dev/null
 route del 8.8.4.4 gw "$route" metric 0 2>/dev/null
 route del "$host" gw "$route" metric 0 2>/dev/null
@@ -208,11 +208,10 @@ route add 8.8.8.8 gw $route metric 0
 route add 8.8.4.4 gw $route metric 0
 route add $host gw $route metric 0
 route add default gw 10.0.0.2 metric 0
-echo "
+echo '
 #!/bin/bash
 #vmt (Wegare)
-host=$(cat /root/akun/vmt.txt | tr '\n' ' '  | awk '{print $1}')
-fping -l $host" > /usr/bin/ping-vmt
+httping m.google.com' > /usr/bin/ping-vmt
 chmod +x /usr/bin/ping-vmt
 /usr/bin/ping-vmt > /dev/null 2>&1 &
 sleep 5
